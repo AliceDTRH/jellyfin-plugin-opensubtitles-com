@@ -21,7 +21,7 @@ namespace OpenSubtitlesComApi
         /**
          * Source: https://forum.opensubtitles.org/viewtopic.php?t=1562#p29506
          * Permalink: https://web.archive.org/web/20151215123021/http://forum.opensubtitles.org/viewtopic.php?t=1562#p29506
-         * This code is NOT under the MIT license and used in the understanding that it was intended to be under a permissive license.
+         * This code is NOT under the GPLv3 license and used in the understanding that it was intended to be under a permissive license.
          **/
 
         public static string GetHash(string filepath)
