@@ -26,6 +26,11 @@ namespace OpenSubtitlesComApi
 
         public static string GetHash(string filepath)
         {
+            if (string.IsNullOrWhiteSpace(filepath))
+            {
+                throw new ArgumentException($"'{nameof(filepath)}' cannot be null or whitespace", nameof(filepath));
+            }
+
             using FileStream input = File.OpenRead(filepath);
             ulong lhash = (ulong)input.Length;
             byte[] buf = new byte[65536 * 2];

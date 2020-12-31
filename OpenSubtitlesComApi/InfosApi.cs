@@ -7,6 +7,11 @@ namespace OpenSubtitlesComApi
     {
         public static void RequestUserInfo(Api api)
         {
+            if (api is null)
+            {
+                throw new ArgumentNullException(nameof(api));
+            }
+
             AuthenticationApi.CheckUserToken(api);
             RestClient client = api.GetRestClient();
 

@@ -15,8 +15,13 @@ namespace OpenSubtitlesComApi
 
         public DownloadApi(Api api, string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentException($"'{nameof(id)}' cannot be null or whitespace", nameof(id));
+            }
+
             AuthenticationApi.CheckUserToken(api);
-            this.api = api;
+            this.api = api ?? throw new ArgumentNullException(nameof(api));
             //If lasstdatarequest + 1 hour is later than now
             if (api.lastRemainingDownloadsCheck.AddHours(1).CompareTo(DateTime.UtcNow) > 0)
             {

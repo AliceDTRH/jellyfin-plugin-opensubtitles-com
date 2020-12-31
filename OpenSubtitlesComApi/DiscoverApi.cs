@@ -8,6 +8,11 @@ namespace OpenSubtitlesComApi
     {
         public static MostDownloadedResponse.Root GetMostDownloaded(Api api, string languages, MediaType? mediaType)
         {
+            if (api is null)
+            {
+                throw new ArgumentNullException(nameof(api));
+            }
+
             string apikey = api.ApiKey;
             RestClient client = api.GetRestClient();
 

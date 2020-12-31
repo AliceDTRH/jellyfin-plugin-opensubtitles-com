@@ -18,6 +18,11 @@ namespace OpenSubtitlesComApi
 
         public static void CheckUserToken(Api api)
         {
+            if (api is null)
+            {
+                throw new ArgumentNullException(nameof(api));
+            }
+
             if (api.user == null || api.user.token == null || api.user.status != 200)
             {
                 throw new InvalidOperationException("User is not logged in.");
@@ -26,6 +31,11 @@ namespace OpenSubtitlesComApi
 
         public static bool TryLogin(Api api, string username, string password)
         {
+            if (api is null)
+            {
+                throw new ArgumentNullException(nameof(api));
+            }
+
             RestClient client = api.GetRestClient();
 
             if (string.IsNullOrEmpty(username))
