@@ -2,6 +2,7 @@
 {
     public class UserInfosResponse
     {
+#pragma warning disable IDE1006 // Naming Styles
         public Data data { get; set; }
 
         public class Data
@@ -14,5 +15,7 @@
             public int downloads_count { get; set; }
             public int remaining_downloads { get; set; }
         }
+
+#pragma warning restore IDE1006 // Naming Styles
     }
 }

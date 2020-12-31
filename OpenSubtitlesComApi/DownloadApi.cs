@@ -23,7 +23,7 @@ namespace OpenSubtitlesComApi
             AuthenticationApi.CheckUserToken(api);
             this.api = api ?? throw new ArgumentNullException(nameof(api));
             //If lasstdatarequest + 1 hour is later than now
-            if (api.lastRemainingDownloadsCheck.AddHours(1).CompareTo(DateTime.UtcNow) > 0)
+            if (api.LastRemainingDownloadsCheck.AddHours(1).CompareTo(DateTime.UtcNow) > 0)
             {
                 InfosApi.RequestUserInfo(api);
             }
@@ -42,7 +42,7 @@ namespace OpenSubtitlesComApi
             var client = api.GetRestClient();
             RestRequest request = new RestRequest("/download", Method.POST);
             request.AddHeader("Api-Key", api.ApiKey);
-            request.AddHeader("Authorization", api.user.token);
+            request.AddHeader("Authorization", api.User.token);
 
             request.AddObject(new DownloadRequest
             {
@@ -53,19 +53,20 @@ namespace OpenSubtitlesComApi
             });
 
             var response = client.Execute(request);
-            DownloadResponse downloadResponse = api.GetJsonNetSerializer().Deserialize<DownloadResponse>(response);
+            DownloadResponse downloadResponse = api.GetJsonNet().Deserialize<DownloadResponse>(response);
 
             if (string.IsNullOrWhiteSpace(downloadResponse.link)) { return false; }
 
             Url = downloadResponse.link;
 
             api.UserData.data.remaining_downloads = downloadResponse.remaining;
-            api.lastRemainingDownloadsCheck = DateTime.UtcNow;
+            api.LastRemainingDownloadsCheck = DateTime.UtcNow;
             return true;
         }
 
         public class DownloadRequest
         {
+#pragma warning disable IDE1006 // Naming Styles
             public string file_id { get; set; }
             public string sub_format { get; set; }
             public string file_name { get; set; }
@@ -75,6 +76,7 @@ namespace OpenSubtitlesComApi
             public int in_fps { get; set; }
             public int out_fps { get; set; }
             public int timeshift { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         }
     }
 }

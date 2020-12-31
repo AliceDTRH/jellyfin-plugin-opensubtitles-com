@@ -7,7 +7,7 @@ namespace OpenSubtitlesComConsole
     internal static class Program
     {
         //Configuration is in user.conf
-        private static string Apikey = JsonConfig.Config.Global.ApiKey;
+        private static readonly string Apikey = JsonConfig.Config.Global.ApiKey;
 
         private static void Main(string[] args)
         {

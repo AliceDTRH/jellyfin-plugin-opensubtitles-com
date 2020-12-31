@@ -9,11 +9,8 @@ namespace OpenSubtitlesComApi
     {
         private RestClient restClient;
         private JsonNetSerializer jsonNet;
-        private string BaseUrl;
-
-        public LoginResponse user;
-        public DateTime LastDataRequest;
-        public DateTime lastRemainingDownloadsCheck;
+        private readonly string BaseUrl;
+        internal readonly string ApiKey;
 
         public Api(string apiKey, string baseUrl = "https://www.opensubtitles.com/api/v1/")
         {
@@ -21,31 +18,44 @@ namespace OpenSubtitlesComApi
             BaseUrl = baseUrl;
         }
 
-        public string ApiKey { internal get; set; }
         public UserInfosResponse UserData { get; internal set; }
+        public LoginResponse User { get; internal set; }
+        public DateTime LastDataRequest { get; internal set; }
+        public DateTime LastRemainingDownloadsCheck { get; internal set; }
 
-        public RestClient GetRestClient(bool force = false)
+        public RestClient GetRestClient(bool recreate = false)
         {
             if (!Uri.TryCreate(BaseUrl, UriKind.Absolute, out Uri baseUri))
             {
                 throw new InvalidOperationException("Invalid baseUrl");
             }
 
-            if (restClient == null || force)
+            if (GetRestClient() == null || recreate)
             {
-                restClient = new RestClient(baseUri);
-                restClient.UseNewtonsoftJson();
+                SetRestClient(new RestClient(baseUri));
             }
             return restClient;
         }
 
-        public JsonNetSerializer GetJsonNetSerializer(bool force = false)
+        public void SetRestClient(RestClient value)
         {
-            if (jsonNet == null || force)
+            restClient = value;
+            restClient.UseNewtonsoftJson();
+        }
+
+        public JsonNetSerializer GetJsonNet(bool recreate = false)
+        {
+            if (jsonNet == null || recreate)
             {
-                jsonNet = new JsonNetSerializer();
+                SetJsonNet(new JsonNetSerializer());
             }
+
             return jsonNet;
+        }
+
+        public void SetJsonNet(JsonNetSerializer value)
+        {
+            jsonNet = value;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace OpenSubtitlesComApi
                 throw new ArgumentNullException(nameof(api));
             }
 
-            if (api.user == null || api.user.token == null || api.user.status != 200)
+            if (api.User == null || api.User.token == null || api.User.status != 200)
             {
                 throw new InvalidOperationException("User is not logged in.");
             }
@@ -60,11 +60,11 @@ namespace OpenSubtitlesComApi
 
             IRestResponse response = client.Execute(request);
 
-            LoginResponse loginResponse = api.GetJsonNetSerializer().Deserialize<LoginResponse>(response);
+            LoginResponse loginResponse = api.GetJsonNet().Deserialize<LoginResponse>(response);
 
             if (loginResponse.status == 200 && loginResponse.token != null)
             {
-                api.user = loginResponse;
+                api.User = loginResponse;
                 api.LastDataRequest = DateTime.UtcNow;
                 InfosApi.RequestUserInfo(api);
                 return true;

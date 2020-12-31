@@ -17,12 +17,12 @@ namespace OpenSubtitlesComApi
 
             var request = new RestRequest("/infos/user", Method.GET);
             request.AddHeader("Api-Key", api.ApiKey);
-            request.AddHeader("Authorization", api.user.token);
+            request.AddHeader("Authorization", api.User.token);
 
             var response = client.Execute(request);
 
-            api.UserData = api.GetJsonNetSerializer().Deserialize<UserInfosResponse>(response);
-            api.lastRemainingDownloadsCheck = DateTime.UtcNow;
+            api.UserData = api.GetJsonNet().Deserialize<UserInfosResponse>(response);
+            api.LastRemainingDownloadsCheck = DateTime.UtcNow;
         }
     }
 }

@@ -6,8 +6,10 @@ namespace OpenSubtitlesComApi.Model.AuthenticationApi
 {
     public class LoginResponse
     {
-        public string token;
-        public int status;
+#pragma warning disable IDE1006 // Naming Styles
+        public string token { get; set; }
+        public int status { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
         public override string ToString()
         {

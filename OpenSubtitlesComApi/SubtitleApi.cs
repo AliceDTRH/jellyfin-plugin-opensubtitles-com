@@ -10,10 +10,12 @@ namespace OpenSubtitlesComApi
     {
         public class SubtitleRequest
         {
+#pragma warning disable IDE1006 // Naming Styles
             public string moviehash { get; set; }
             public string query { get; set; }
             public string type { get; set; }
             public string languages { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         }
 
         public static SubtitleResponse Search(Api api, string type, string filepath, string languages)
@@ -55,7 +57,7 @@ namespace OpenSubtitlesComApi
             RestClient client = api.GetRestClient();
             var response = client.Execute(request);
 
-            return api.GetJsonNetSerializer().Deserialize<SubtitleResponse>(response);
+            return api.GetJsonNet().Deserialize<SubtitleResponse>(response);
         }
     }
 }

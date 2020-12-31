@@ -7,7 +7,6 @@ namespace OpenSubtitlesComApi.Model.DiscoverApi
 {
     public class MostDownloadedResponse
     {
-        // Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
         public class Uploader
         {
             [JsonPropertyName("uploader_id")]
