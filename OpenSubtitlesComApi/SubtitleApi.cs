@@ -18,7 +18,7 @@ namespace OpenSubtitlesComApi
 
         public static SubtitleResponse Search(Api api, string type, string filepath, string languages)
         {
-            if (!File.Exists(filepath)) { throw new FileNotFoundException("{0} was not found!", filepath); }
+            if (!File.Exists(filepath)) { throw new FileNotFoundException($"{filepath} was not found!", filepath); }
             string filename = Path.GetFileName(filepath);
             string hash = Util.GetHash(filepath);
             var request = new RestRequest("/subtitles", Method.GET);

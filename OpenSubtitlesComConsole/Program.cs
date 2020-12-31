@@ -11,26 +11,30 @@ namespace OpenSubtitlesComConsole
 
         private static void Main(string[] args)
         {
-            Console.WriteLine((string)Config.Global.ApiKey);
+            string arg = string.Join(" ", args);
             Api api = new Api(Program.Apikey);
 
-            Console.WriteLine(AuthenticationApi.TryLogin(api, Config.Global.Username, Config.Global.Password));
-            //Console.WriteLine(api.user);
-            //Console.WriteLine(DiscoverApi.GetMostDownloaded(api));
-            foreach (var subtitle in SubtitleApi.Search(api, "episode", "C:\\Users\\alice\\Desktop\\Sofia The First S01E01.mp4", "en").data)
+            if (AuthenticationApi.TryLogin(api, Config.Global.Username, Config.Global.Password))
             {
-                Console.WriteLine(subtitle);
-                Console.WriteLine("Download? Y/N");
-                if (Console.ReadKey().Key == ConsoleKey.Y)
+                foreach (var subtitle in SubtitleApi.Search(api, "all", arg, "en").data)
                 {
-                    Console.WriteLine("Downloading {0}", subtitle.attributes.files[0].file_id.ToString());
-                    var download = new DownloadApi(api, subtitle.attributes.files[0].file_id.ToString());
-                    if (download.PerformSubtitleDownloadRequest())
+                    Console.WriteLine(subtitle);
+                    Console.WriteLine("Download? Y/N");
+                    if (Console.ReadKey().Key == ConsoleKey.Y)
                     {
-                        Console.WriteLine(download.Url);
+                        Console.WriteLine("Downloading {0}", subtitle.attributes.files[0].file_id.ToString());
+                        var download = new DownloadApi(api, subtitle.attributes.files[0].file_id.ToString());
+                        if (download.PerformSubtitleDownloadRequest())
+                        {
+                            Console.WriteLine(download.Url);
+                        }
+                        break;
                     }
-                    break;
                 }
+            }
+            else
+            {
+                Console.WriteLine("Something went wrong trying to login.");
             }
         }
     }

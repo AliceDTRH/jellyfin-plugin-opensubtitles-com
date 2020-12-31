@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OpenSubtitlesComConsole": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\alice\\Desktop\\Sofia The First S01E01.mp4"
+    }
+  }
+}
