@@ -6,7 +6,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="default.conf" />
+    <None Remove="user.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nefarius.JsonConfig" Version="1.1.28" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OpenSubtitlesComApi\OpenSubtitlesComApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="default.conf" />
+    <Resource Include="user.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Program.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>

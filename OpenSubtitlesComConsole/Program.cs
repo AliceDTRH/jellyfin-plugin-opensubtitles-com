@@ -3,20 +3,16 @@ using OpenSubtitlesComApi;
 
 namespace OpenSubtitlesComConsole
 {
-    internal class Program
+    internal static class Program
     {
-        private const string Apikey = "eGRrUxS3IKdR2yIxRWU7HIFwnjneqWhV";
+        //Configuration is in user.conf
+        private static string Apikey = JsonConfig.Config.Global.ApiKey;
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             Api api = new Api(Program.Apikey);
 
-            RestSharp.RestClient client = api.GetRestClient();
-            //RestSharp.RestClient client = api.GetRestClient();
-
-            Console.WriteLine(AuthenticationApi.TryLogin(api, "alicedtrh", "hD7pmWtt79dEh2dQwNa3"));
+            Console.WriteLine(AuthenticationApi.TryLogin(api, JsonConfig.Config.Global.username, JsonConfig.Config.Global.password));
             //Console.WriteLine(api.user);
             //Console.WriteLine(DiscoverApi.GetMostDownloaded(api));
             foreach (var subtitle in SubtitleApi.Search(api, "episode", "C:\\Users\\alice\\Desktop\\Sofia The First S01E01.mp4", "en").data)
