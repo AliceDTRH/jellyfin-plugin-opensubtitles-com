@@ -7,7 +7,20 @@
 
   <ItemGroup>
     <None Remove="default.conf" />
+    <None Remove="settings.conf" />
     <None Remove="user.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="settings.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="default.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="default.conf" />
     <Resource Include="user.conf" />
   </ItemGroup>
 

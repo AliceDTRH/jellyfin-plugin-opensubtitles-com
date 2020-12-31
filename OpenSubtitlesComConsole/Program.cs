@@ -1,4 +1,5 @@
 ﻿using System;
+using JsonConfig;
 using OpenSubtitlesComApi;
 
 namespace OpenSubtitlesComConsole
@@ -10,9 +11,10 @@ namespace OpenSubtitlesComConsole
 
         private static void Main(string[] args)
         {
+            Console.WriteLine((string)Config.Global.ApiKey);
             Api api = new Api(Program.Apikey);
 
-            Console.WriteLine(AuthenticationApi.TryLogin(api, JsonConfig.Config.Global.username, JsonConfig.Config.Global.password));
+            Console.WriteLine(AuthenticationApi.TryLogin(api, Config.Global.Username, Config.Global.Password));
             //Console.WriteLine(api.user);
             //Console.WriteLine(DiscoverApi.GetMostDownloaded(api));
             foreach (var subtitle in SubtitleApi.Search(api, "episode", "C:\\Users\\alice\\Desktop\\Sofia The First S01E01.mp4", "en").data)
