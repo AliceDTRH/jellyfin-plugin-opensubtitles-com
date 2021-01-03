@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Template</title>
+</head>
+<body>
+    <div id="TemplateConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <form id="TemplateConfigForm">
+                    <!-- <div class="selectContainer">
+                        <label class="selectLabel" for="Options">Several Options</label>
+                        <select is="emby-select" id="Options" name="Options" class="emby-select-withcolor emby-select">
+                            <option id="optOneOption" value="OneOption">One Option</option>
+                            <option id="optAnotherOption" value="AnotherOption">Another Option</option>
+                        </select>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputeLabel inputLabelUnfocused" for="AnInteger">An Integer</label>
+                        <input id="AnInteger" name="AnInteger" type="number" is="emby-input" min="0" />
+                        <div class="fieldDescription">A Description</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescripton">
+                        <label class="emby-checkbox-label">
+                            <input id="TrueFalseSetting" name="TrueFalseCheckBox" type="checkbox" is="emby-checkbox" />
+                            <span>A Checkbox</span>
+                        </label>
+                    </div>
+                       -->
+                    <div class="inputContainer">
+                        <label class="inputeLabel inputLabelUnfocused" for="ApiKey">Apikey (optional)</label>
+                        <input id="ApiKey" name="ApiKey" type="text" is="emby-input" />
+                        <div class="fieldDescription">An optional ApiKey from <a href="https://www.opensubtitles.com/en/consumers" rel="external noopener">OpenSubtitles.com</a></div>
+
+                        <label class="inputeLabel inputLabelUnfocused" for="Username">Username (required)</label>
+                        <input id="Username" name="Username" type="text" is="emby-input" required />
+                        <div class="fieldDescription">A Username from <a href="https://www.opensubtitles.com/en/users/sign_up" rel="external noopener">OpenSubtitles.com</a></div>
+
+                        <label class="inputeLabel inputLabelUnfocused" for="Password">Password (required)</label>
+                        <input id="Password" name="Password" type="password" is="emby-input" required />
+                        <div class="fieldDescription">A Password from <a href="https://www.opensubtitles.com/en/users/sign_up" rel="external noopener">OpenSubtitles.com</a></div>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var TemplateConfig = {
+            pluginUniqueId: '33a86e64-3e23-4938-89b0-d1263fe7c325'
+            };
+
+            document.querySelector('#TemplateConfigPage')
+            .addEventListener('pageshow', function(){
+            Dashboard.showLoadingMsg();
+            ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
+            //          document.querySelector('#Options').value = config.Options;
+            //            document.querySelector('#AnInteger').value = config.AnInteger;
+            //            document.querySelector('#TrueFalseSetting').checked = config.TrueFalseSetting;
+            document.querySelector('#Username').value = config.Username;
+            if(config.Password && config.Password.length > 0) {
+            document.querySelector('#Password').value = "N0tY0urP@ssw0rd";
+            }
+
+            if(config.ApiKey != "cGpQwjOeyFO4w8GhWFDgXO2ui7ZhrRqb") {
+            document.querySelector('#ApiKey').value = config.ApiKey;
+            }
+            Dashboard.hideLoadingMsg();
+            });
+            })
+
+            document.querySelector('#TemplateConfigForm')
+            .addEventListener('submit', function() {
+            Dashboard.showLoadingMsg();
+            ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
+            //            config.Options = document.querySelector('#Options').value;
+            //            config.AnInteger = document.querySelector('#AnInteger').value;
+            //            config.TrueFalseSetting = document.querySelector('#TrueFalseSetting').checked;
+            if(document.querySelector('#Password').value != "N0tY0urP@ssw0rd") {
+            config.Password = document.querySelector('#Password').value;
+            } else {
+            config.Password = config.Password;
+            }
+            if(document.querySelector('#ApiKey').value != "") {
+            config.ApiKey = document.querySelector('#ApiKey').value;
+            } else {
+            config.ApiKey = "cGpQwjOeyFO4w8GhWFDgXO2ui7ZhrRqb";
+            }
+            ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
+            Dashboard.processPluginConfigurationUpdateResult(result);
+            });
+            });
+            return false;
+            });
+        </script>
+    </div>
+</body>
+</html>
