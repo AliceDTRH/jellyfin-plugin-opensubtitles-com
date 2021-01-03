@@ -1,0 +1,12 @@
+{
+    "category": "Metadata",
+    "changelog": "Check Github for changes\n",
+    "description": "This plugin allows you to use subtitles from OpenSubtitles.com",
+    "guid": "33a86e64-3e23-4938-89b0-d1263fe7c325",
+    "name": "OpenSubtitles.com",
+    "overview": "Use OpenSubtitles.com Subtitles",
+    "owner": "alicedtrh",
+    "targetAbi": "10.6.0.0",
+    "timestamp": "2021-01-03T00:00:00Z",
+    "version": "1.0.0.0"
+}

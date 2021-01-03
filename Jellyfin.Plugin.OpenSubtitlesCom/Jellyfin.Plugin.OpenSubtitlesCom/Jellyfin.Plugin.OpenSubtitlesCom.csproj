@@ -26,4 +26,10 @@
     <ProjectReference Include="..\..\OpenSubtitlesComApi\OpenSubtitlesComApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="meta.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
