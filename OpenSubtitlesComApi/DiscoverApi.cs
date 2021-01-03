@@ -6,7 +6,7 @@ namespace OpenSubtitlesComApi
 {
     public static class DiscoverApi
     {
-        public static MostDownloadedResponse.Root GetMostDownloaded(Api api, string languages, MediaType? mediaType)
+        public static MostDownloadedResponse.Root GetMostDownloaded(Api api, string languages, string mediaType)
         {
             if (api is null)
             {
@@ -23,9 +23,9 @@ namespace OpenSubtitlesComApi
                 request.AddParameter("languages", languages);
             }
 
-            if (mediaType.HasValue)
+            if (!string.IsNullOrEmpty(mediaType))
             {
-                request.AddParameter("type", mediaType.ToString());
+                request.AddParameter("type", mediaType);
             }
 
             request.AddHeader("Api-Key", apikey);

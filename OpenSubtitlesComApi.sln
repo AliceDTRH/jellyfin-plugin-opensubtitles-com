@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSubtitlesComApi", "OpenSubtitlesComApi\OpenSubtitlesComApi.csproj", "{E2F873F4-78C8-4FD5-ACA8-EFBA110B33A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenSubtitlesComApi", "OpenSubtitlesComApi\OpenSubtitlesComApi.csproj", "{E2F873F4-78C8-4FD5-ACA8-EFBA110B33A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSubtitlesComConsole", "OpenSubtitlesComConsole\OpenSubtitlesComConsole.csproj", "{47CE9B18-7A0B-4398-BB87-2DCDF0A2B2CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenSubtitlesComConsole", "OpenSubtitlesComConsole\OpenSubtitlesComConsole.csproj", "{47CE9B18-7A0B-4398-BB87-2DCDF0A2B2CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jellyfin.Plugin.OpenSubtitlesCom", "E:\Downloads\jellyfin-plugin-template-master\jellyfin-plugin-template-master\Jellyfin.Plugin.OpenSubtitlesCom\Jellyfin.Plugin.OpenSubtitlesCom.csproj", "{D1B8B514-150A-4C28-A3DB-BA78B5B8571C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{47CE9B18-7A0B-4398-BB87-2DCDF0A2B2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47CE9B18-7A0B-4398-BB87-2DCDF0A2B2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47CE9B18-7A0B-4398-BB87-2DCDF0A2B2CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B8B514-150A-4C28-A3DB-BA78B5B8571C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1B8B514-150A-4C28-A3DB-BA78B5B8571C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1B8B514-150A-4C28-A3DB-BA78B5B8571C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1B8B514-150A-4C28-A3DB-BA78B5B8571C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

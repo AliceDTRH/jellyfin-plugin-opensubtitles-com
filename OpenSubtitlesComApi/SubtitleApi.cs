@@ -1,8 +1,7 @@
 ﻿using RestSharp;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace OpenSubtitlesComApi
 {
@@ -18,7 +17,7 @@ namespace OpenSubtitlesComApi
 #pragma warning restore IDE1006 // Naming Styles
         }
 
-        public static SubtitleResponse Search(Api api, string type, string filepath, string languages)
+        public static Task<SubtitleResponse> Search(Api api, string type, string filepath, string languages)
         {
             if (api is null)
             {
@@ -40,6 +39,11 @@ namespace OpenSubtitlesComApi
                 throw new ArgumentException($"'{nameof(languages)}' cannot be null or empty", nameof(languages));
             }
 
+            return SearchInternal(api, type, filepath, languages);
+        }
+
+        public static async Task<SubtitleResponse> SearchInternal(Api api, string type, string filepath, string languages)
+        {
             if (!File.Exists(filepath)) { throw new FileNotFoundException($"{filepath} was not found!", filepath); }
             string filename = Path.GetFileName(filepath);
             string hash = Util.GetHash(filepath);
@@ -51,11 +55,11 @@ namespace OpenSubtitlesComApi
                 moviehash = hash,
                 query = filename,
                 type = type.ToString(),
-                languages = languages
+                languages = languages,
             });
 
             RestClient client = api.GetRestClient();
-            var response = client.Execute(request);
+            var response = await client.ExecuteAsync(request);
 
             return api.GetJsonNet().Deserialize<SubtitleResponse>(response);
         }

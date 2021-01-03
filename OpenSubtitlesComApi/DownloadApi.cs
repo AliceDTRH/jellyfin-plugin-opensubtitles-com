@@ -1,7 +1,6 @@
 ﻿using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace OpenSubtitlesComApi
 {
@@ -31,7 +30,7 @@ namespace OpenSubtitlesComApi
             SubtitleId = id;
         }
 
-        public bool PerformSubtitleDownloadRequest()
+        public async Task<bool> PerformSubtitleDownloadRequest(System.Threading.CancellationToken cancellationToken)
         {
             if (api.UserData.data.remaining_downloads < 1)
             {
@@ -52,7 +51,7 @@ namespace OpenSubtitlesComApi
                 remove_adds = true
             });
 
-            var response = client.Execute(request);
+            IRestResponse response = await client.ExecuteAsync(request, cancellationToken);
             DownloadResponse downloadResponse = api.GetJsonNet().Deserialize<DownloadResponse>(response);
 
             if (string.IsNullOrWhiteSpace(downloadResponse.link)) { return false; }

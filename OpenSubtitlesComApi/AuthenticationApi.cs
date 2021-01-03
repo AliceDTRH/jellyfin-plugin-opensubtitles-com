@@ -1,6 +1,4 @@
-﻿using OpenSubtitlesComApi.Model.DiscoverApi;
-using RestSharp;
-using RestSharp.Serializers;
+﻿using RestSharp;
 using System;
 using OpenSubtitlesComApi.Model.AuthenticationApi;
 

@@ -14,7 +14,7 @@ namespace OpenSubtitlesComApi
 
         public Api(string apiKey, string baseUrl = "https://www.opensubtitles.com/api/v1/")
         {
-            ApiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
+            ApiKey = apiKey;
             BaseUrl = baseUrl;
         }
 
@@ -30,9 +30,10 @@ namespace OpenSubtitlesComApi
                 throw new InvalidOperationException("Invalid baseUrl");
             }
 
-            if (GetRestClient() == null || recreate)
+            if (restClient == null || recreate)
             {
-                SetRestClient(new RestClient(baseUri));
+                restClient = new RestClient(baseUri);
+                restClient.UseNewtonsoftJson();
             }
             return restClient;
         }

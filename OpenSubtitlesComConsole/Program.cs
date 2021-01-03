@@ -16,7 +16,9 @@ namespace OpenSubtitlesComConsole
 
             if (AuthenticationApi.TryLogin(api, Config.Global.Username, Config.Global.Password))
             {
-                foreach (var subtitle in SubtitleApi.Search(api, "all", arg, "en").data)
+                var search = SubtitleApi.Search(api, "all", arg, "en").Result;
+                if (search.data == null) { Console.WriteLine(search); return; }
+                foreach (var subtitle in search.data)
                 {
                     Console.WriteLine(subtitle);
                     Console.WriteLine("Download? Y/N");
@@ -24,7 +26,7 @@ namespace OpenSubtitlesComConsole
                     {
                         Console.WriteLine("Downloading {0}", subtitle.attributes.files[0].file_id.ToString());
                         var download = new DownloadApi(api, subtitle.attributes.files[0].file_id.ToString());
-                        if (download.PerformSubtitleDownloadRequest())
+                        if (download.PerformSubtitleDownloadRequest(new System.Threading.CancellationToken()).Result)
                         {
                             Console.WriteLine(download.Url);
                         }
