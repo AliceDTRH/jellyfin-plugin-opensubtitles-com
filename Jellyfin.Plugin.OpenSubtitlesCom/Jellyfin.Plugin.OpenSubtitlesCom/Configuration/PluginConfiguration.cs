@@ -8,7 +8,7 @@ namespace Jellyfin.Plugin.OpenSubtitlesCom.Configuration
 
         public string ApiKey { get; set; }
         public string Username { get; set; }
-        public string Password { internal get; set; }
+        public string Password { get; set; }
 
         public PluginConfiguration()
         {
