@@ -4,15 +4,17 @@ using System;
 
 namespace OpenSubtitlesComApi
 {
-    public static class DiscoverApi
+    public class DiscoverApi
     {
-        public static MostDownloadedResponse.Root GetMostDownloaded(Api api, string languages, string mediaType)
-        {
-            if (api is null)
-            {
-                throw new ArgumentNullException(nameof(api));
-            }
+        private readonly Api api;
 
+        public DiscoverApi(Api api)
+        {
+            this.api = api;
+        }
+
+        public MostDownloadedResponse.Root GetMostDownloaded(string languages = null, string mediaType = null)
+        {
             string apikey = api.ApiKey;
             RestClient client = api.GetRestClient();
 
@@ -33,7 +35,5 @@ namespace OpenSubtitlesComApi
 
             return response.Data;
         }
-
-        public static MostDownloadedResponse.Root GetMostDownloaded(Api api) => GetMostDownloaded(api, null, null);
     }
 }

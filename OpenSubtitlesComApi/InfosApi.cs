@@ -3,16 +3,19 @@ using System;
 
 namespace OpenSubtitlesComApi
 {
-    public static class InfosApi
+    public class InfosApi
     {
-        public static void RequestUserInfo(Api api)
-        {
-            if (api is null)
-            {
-                throw new ArgumentNullException(nameof(api));
-            }
+        private readonly Api api;
 
-            AuthenticationApi.CheckUserToken(api);
+        public InfosApi(Api api)
+        {
+            this.api = api;
+            this.api.EnsureLogin(); //Throws AuthenticationFailureException if unable to login.
+        }
+
+        public void RequestUserInfo()
+        {
+            api.CheckUserToken();
             RestClient client = api.GetRestClient();
 
             var request = new RestRequest("/infos/user", Method.GET);

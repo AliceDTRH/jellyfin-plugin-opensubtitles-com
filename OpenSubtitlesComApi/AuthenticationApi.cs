@@ -4,7 +4,7 @@ using OpenSubtitlesComApi.Model.AuthenticationApi;
 
 namespace OpenSubtitlesComApi
 {
-    public static class AuthenticationApi
+    public class AuthenticationApi
     {
         public class RequestObject
         {
@@ -14,26 +14,15 @@ namespace OpenSubtitlesComApi
 #pragma warning restore IDE1006 // Naming Styles
         }
 
-        public static void CheckUserToken(Api api)
-        {
-            if (api is null)
-            {
-                throw new ArgumentNullException(nameof(api));
-            }
+        private readonly Api api;
 
-            if (api.User == null || api.User.token == null || api.User.status != 200)
-            {
-                throw new InvalidOperationException("User is not logged in.");
-            }
+        public AuthenticationApi(Api api)
+        {
+            this.api = api;
         }
 
-        public static bool TryLogin(Api api, string username, string password)
+        public bool TryLogin(string username, string password)
         {
-            if (api is null)
-            {
-                throw new ArgumentNullException(nameof(api));
-            }
-
             RestClient client = api.GetRestClient();
 
             if (string.IsNullOrEmpty(username))
@@ -64,8 +53,8 @@ namespace OpenSubtitlesComApi
             {
                 api.User = loginResponse;
                 api.LastDataRequest = DateTime.UtcNow;
-                InfosApi.RequestUserInfo(api);
-                return true;
+                api.Infos.RequestUserInfo();
+                return api.CheckUserToken();
             }
             return false;
         }

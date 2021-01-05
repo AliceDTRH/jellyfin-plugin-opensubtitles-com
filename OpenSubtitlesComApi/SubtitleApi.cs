@@ -5,9 +5,16 @@ using System.Threading.Tasks;
 
 namespace OpenSubtitlesComApi
 {
-    public static class SubtitleApi
+    public class SubtitleApi
     {
-        public class SubtitleRequest
+        private readonly Api api;
+
+        public SubtitleApi(Api api)
+        {
+            this.api = api;
+        }
+
+        private class SubtitleRequest
         {
 #pragma warning disable IDE1006 // Naming Styles
             public string moviehash { get; set; }
@@ -17,13 +24,8 @@ namespace OpenSubtitlesComApi
 #pragma warning restore IDE1006 // Naming Styles
         }
 
-        public static Task<SubtitleResponse> Search(Api api, string type, string filepath, string languages)
+        public Task<SubtitleResponse> Search(string type, string filepath, string languages)
         {
-            if (api is null)
-            {
-                throw new ArgumentNullException(nameof(api));
-            }
-
             if (string.IsNullOrEmpty(type))
             {
                 throw new ArgumentException($"'{nameof(type)}' cannot be null or empty", nameof(type));
@@ -39,10 +41,10 @@ namespace OpenSubtitlesComApi
                 throw new ArgumentException($"'{nameof(languages)}' cannot be null or empty", nameof(languages));
             }
 
-            return SearchInternal(api, type, filepath, languages);
+            return SearchInternal(type, filepath, languages);
         }
 
-        public static async Task<SubtitleResponse> SearchInternal(Api api, string type, string filepath, string languages)
+        public async Task<SubtitleResponse> SearchInternal(string type, string filepath, string languages)
         {
             if (!File.Exists(filepath)) { throw new FileNotFoundException($"{filepath} was not found!", filepath); }
             string filename = Path.GetFileName(filepath);

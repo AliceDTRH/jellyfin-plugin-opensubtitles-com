@@ -76,12 +76,12 @@ namespace Jellyfin.Plugin.OpenSubtitlesCom
 #pragma warning restore CS0162 // Unreachable code detected
                 return new SubtitleResponse();
             }
+            string apikey = string.IsNullOrWhiteSpace(Plugin.Instance.Configuration.ApiKey) ? "cGpQwjOeyFO4w8GhWFDgXO2ui7ZhrRqb" : Plugin.Instance.Configuration.ApiKey;
 
-            var api = new OpenSubtitlesComApi.Api(Plugin.Instance.Configuration.ApiKey);
-            OpenSubtitlesComApi.AuthenticationApi.TryLogin(api, Plugin.Instance.Configuration.Username, Plugin.Instance.Configuration.Password);
-            var downloadapi = new OpenSubtitlesComApi.DownloadApi(api, id);
+            var api = new OpenSubtitlesComApi.Api(apikey, Plugin.Instance.Configuration.Username, Plugin.Instance.Configuration.Password);
+            var downloadapi = api.Download;
 
-            if (await downloadapi.PerformSubtitleDownloadRequest(cancellationToken))
+            if (await downloadapi.PerformSubtitleDownloadRequest(id, cancellationToken))
             {
                 // We need to download the subtitle regardless of the location.
                 // Sadly we don't decide what protocol is used and people want their subs.
@@ -106,8 +106,9 @@ namespace Jellyfin.Plugin.OpenSubtitlesCom
         public async Task<IEnumerable<RemoteSubtitleInfo>> Search(SubtitleSearchRequest request, CancellationToken cancellationToken)
         {
             _logger.LogDebug($"Search({request.Name})");
-            var api = new OpenSubtitlesComApi.Api(Plugin.Instance.Configuration.ApiKey);
-            OpenSubtitlesComApi.SubtitleResponse subtitleResponse = await OpenSubtitlesComApi.SubtitleApi.Search(api, "all", request.MediaPath, "en");
+            string apikey = string.IsNullOrWhiteSpace(Plugin.Instance.Configuration.ApiKey) ? "cGpQwjOeyFO4w8GhWFDgXO2ui7ZhrRqb" : Plugin.Instance.Configuration.ApiKey;
+            var api = new OpenSubtitlesComApi.Api(apikey, null, null);
+            OpenSubtitlesComApi.SubtitleResponse subtitleResponse = await api.Subtitle.Search("all", request.MediaPath, "en");
             var remoteSubtitleInfos = new List<RemoteSubtitleInfo>();
             if (string.IsNullOrWhiteSpace(Plugin.Instance.Configuration.Username) && string.IsNullOrWhiteSpace(Plugin.Instance.Configuration.Password))
             {

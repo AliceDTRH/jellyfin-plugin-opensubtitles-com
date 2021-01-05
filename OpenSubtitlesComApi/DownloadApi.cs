@@ -1,51 +1,55 @@
 ﻿using RestSharp;
 using System;
 using System.Threading.Tasks;
+using OpenSubtitlesComApi.Exceptions;
+using System.Threading;
 
 namespace OpenSubtitlesComApi
 {
     public class DownloadApi
     {
-        private readonly string SubtitleId;
         private readonly Api api;
-        private string url;
 
-        public string Url { get => url; private set => url = value; }
+        public string Url { get; private set; }
 
-        public DownloadApi(Api api, string id)
+        public DownloadApi(Api api)
+        {
+            this.api = api;
+            this.api.EnsureLogin(); //Throws AuthenticationFailureException if unable to login.
+        }
+
+        public Task<bool> PerformSubtitleDownloadRequest(string id, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
                 throw new ArgumentException($"'{nameof(id)}' cannot be null or whitespace", nameof(id));
             }
 
-            AuthenticationApi.CheckUserToken(api);
-            this.api = api ?? throw new ArgumentNullException(nameof(api));
             //If lasstdatarequest + 1 hour is later than now
             if (api.LastRemainingDownloadsCheck.AddHours(1).CompareTo(DateTime.UtcNow) > 0)
             {
-                InfosApi.RequestUserInfo(api);
+                api.Infos.RequestUserInfo();
             }
 
-            SubtitleId = id;
-        }
-
-        public async Task<bool> PerformSubtitleDownloadRequest(System.Threading.CancellationToken cancellationToken)
-        {
             if (api.UserData.data.remaining_downloads < 1)
             {
-                Console.WriteLine("Not starting download, not enough downloads left!");
-                return false;
+                throw new DownloadRateLimitException("Not starting download, not enough downloads left!");
             }
-            Console.WriteLine("Starting request to download subtitle with id {0}!", SubtitleId);
-            var client = api.GetRestClient();
+
+            return InternalPerformSubtitleDownloadRequest(id, cancellationToken);
+        }
+
+        private async Task<bool> InternalPerformSubtitleDownloadRequest(string id, System.Threading.CancellationToken cancellationToken)
+        {
+            Console.WriteLine("Starting request to download subtitle with id {0}!", id);
+            RestClient client = api.GetRestClient();
             RestRequest request = new RestRequest("/download", Method.POST);
             request.AddHeader("Api-Key", api.ApiKey);
             request.AddHeader("Authorization", api.User.token);
 
             request.AddObject(new DownloadRequest
             {
-                file_id = SubtitleId,
+                file_id = id,
                 sub_format = "srt",
                 cleanup_links = true,
                 remove_adds = true
